@@ -3,6 +3,7 @@ import 'package:mini_catalog_app/features/catalog/data/repositories_impl/product
 import 'package:mini_catalog_app/features/catalog/domain/entities/product.dart';
 import 'package:mini_catalog_app/features/catalog/domain/use_cases/get_products_usecase.dart';
 import 'package:mini_catalog_app/features/catalog/presentation/pages/product_detail_page.dart';
+import '../widgets/product_grid_widget.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -56,74 +57,9 @@ class _ProductListPageState extends State<ProductListPage> {
           }
 
           final products = snapshot.data!;
+          return ProductGridWidget(products: products);
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(12.0),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return Card(
-                elevation: 3,
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailPage(product: product),
-                      ),
-                    );
-                  },
-                  contentPadding: const EdgeInsets.all(10.0),
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      product.imageUrl,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Icon(Icons.broken_image, size: 60),
-                    ),
-                  ),
-                  title: Text(
-                    product.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 6.0),
-                    child: Text(
-                      '\$${product.price.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.star, color: Colors.amber, size: 20),
-                      const SizedBox(width: 4),
-                      Text(
-                        product.rating.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
+          },
       ),
     );
   }
