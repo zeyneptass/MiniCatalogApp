@@ -22,7 +22,7 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Product> getProductById(String id) async {
     final products = await getProducts();
     return products.firstWhere(
-      (product) => product.id == id,
+      (product) => product.id == int.parse(id),
       orElse: () => throw Exception('Ürün bulunamadı!'),
     );
   }

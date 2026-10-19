@@ -15,27 +15,24 @@ class Product {
     required this.rating,
   });
 
-// 1. JSON verisini Dart nesnesine dönüştürür
-  factory Product.fromJson(Map<String, dynamic> json) {
+factory Product.fromJson(Map<String, dynamic> json) {
+    // DummyJSON uyumlu görsel yakalama (thumbnail veya images listesinden ilk eleman)
+    String imgUrl = '';
+    if (json['thumbnail'] != null) {
+      imgUrl = json['thumbnail'];
+    } else if (json['images'] != null && (json['images'] as List).isNotEmpty) {
+      imgUrl = json['images'][0];
+    } else {
+      imgUrl = json['imageUrl'] ?? '';
+    }
+
     return Product(
       id: json['id'] ?? 0,
       title: json['title'] ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       description: json['description'] ?? '',
-      imageUrl: json['imageUrl'] ?? json['image'] ?? '',
+      imageUrl: imgUrl,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
     );
-  }
-
-  // 2. Dart nesnesini JSON formatına dönüştürür
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'price': price,
-      'description': description,
-      'imageUrl': imageUrl,
-      'rating': rating,
-    };
   }
 }
