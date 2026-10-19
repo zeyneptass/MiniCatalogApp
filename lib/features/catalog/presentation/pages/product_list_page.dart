@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:mini_catalog_app/features/catalog/data/repositories_impl/product_repository_impl.dart';
 import 'package:mini_catalog_app/features/catalog/domain/entities/product.dart';
 import 'package:mini_catalog_app/features/catalog/domain/use_cases/get_products_usecase.dart';
+import 'package:mini_catalog_app/features/catalog/presentation/pages/product_detail_page.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -69,6 +69,15 @@ class _ProductListPageState extends State<ProductListPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(product: product),
+                      ),
+                    );
+                  },
                   contentPadding: const EdgeInsets.all(10.0),
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
